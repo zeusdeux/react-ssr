@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 ReactDOM.hydrate(
   <BrowserRouter>
-    <App msg="Hallo Leute! Ich lebe grade!" initCount={20} time={Date.now()} />
+    <App msg="Hallo Leute! Ich lebe grade!" time={Date.now()} />
   </BrowserRouter>,
   document.querySelector('main')
 )

@@ -24,7 +24,7 @@ app.get('*', (req, res, _next) => {
     title: 'react-ssr',
     app: ReactDOMServer.renderToString(
       <StaticRouter location={req.url} context={context}>
-        <App msg="Hallo Leute! Ich lebe grade!" initCount={20} time={Date.now()} />
+        <App msg="Hallo Leute! Ich lebe grade!" time={Date.now()} />
       </StaticRouter>
     )
   })

@@ -10,13 +10,25 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <nav>
-          <Link to="/home">Home</Link>
+          <Link to="/home/0">Home</Link>
           <Link to="/what/potato">What</Link>
         </nav>
         <div>
           <Switch>
-            <Route exact path="/" render={_ => <Redirect to="/home" />} />
-            <Route exact path="/home" render={props => <Home {...this.props} {...props} />} />
+            <Route exact path="/" render={_ => <Redirect to="/home/0" />} />
+            <Route
+              exact
+              path="/home/:count"
+              render={props => {
+                const count = Number.parseInt(props.match.params.count, 10)
+
+                return Number.isNaN(count) ? (
+                  <FourOhFour />
+                ) : (
+                  <Home {...this.props} count={count} {...props} />
+                )
+              }}
+            />
             <Route exact path="/what/:thing" component={What} />
             <Route component={FourOhFour} />
           </Switch>
@@ -28,7 +40,6 @@ class App extends React.Component {
 
 App.propTypes = {
   msg: PropTypes.string.isRequired,
-  initCount: PropTypes.number.isRequired,
   time: PropTypes.number.isRequired
 }
 
