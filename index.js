@@ -1,18 +1,19 @@
+import { resolve } from 'path'
+
 import express from 'express'
+import compression from 'compression'
 import bodyParser from 'body-parser'
 import logger from 'morgan'
-import path from 'path'
 
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
 import App from './routes/App'
 
-const { resolve } = path
-
 const app = express()
 const PORT = Number.parseInt(process.env.PORT, 10) || 3000
 
+app.use(compression())
 app.use(express.static(resolve('./public')))
 app.use(logger('dev'))
 app.use(bodyParser.json())
@@ -46,10 +47,10 @@ function index({ title, app }) {
       <meta charset="UTF-8"/>
       <title>${title}</title>
       <link rel="stylesheet" href="/app.css" />
+      <script defer src="/app.js"></script>
     </head>
     <body>
       <main>${app}</main>
-      <script src="/app.js"></script>
     </body>
   </html>`
 }
