@@ -15,7 +15,7 @@ class App extends React.Component {
         </nav>
         <div>
           <Switch>
-            <Route exact path="/" render={_ => <Redirect to="/home/0" />} />
+            <Route exact path="/" render={_ => <Redirect to="/home/0/" />} />
             <Route
               exact
               path="/home/:count"
