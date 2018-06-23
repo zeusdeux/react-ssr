@@ -1,23 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import './app.css'
+import { Link, Route, Redirect, Switch } from 'react-router-dom'
+import Home from './Home'
+import What from './What'
+import FourOhFour from './FourOhFour'
 
 class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      count: props.initCount
-    }
-  }
   render() {
     return (
       <React.Fragment>
-        <h1>{this.props.msg}</h1>
-        <p>{this.state.count}</p>
-        <p>{this.props.time}</p>
-        <button onClick={() => this.setState(state => ({ count: state.count + 1 }))}>
-          Increment
-        </button>
+        <nav>
+          <Link to="/home">Home</Link>
+          <Link to="/what/potato">What</Link>
+        </nav>
+        <div>
+          <Switch>
+            <Route exact path="/" render={_ => <Redirect to="/home" />} />
+            <Route exact path="/home" render={props => <Home {...this.props} {...props} />} />
+            <Route exact path="/what/:thing" component={What} />
+            <Route component={FourOhFour} />
+          </Switch>
+        </div>
       </React.Fragment>
     )
   }

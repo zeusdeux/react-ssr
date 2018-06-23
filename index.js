@@ -5,6 +5,7 @@ import path from 'path'
 
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
+import { StaticRouter } from 'react-router-dom'
 import App from './routes/App'
 
 const { resolve } = path
@@ -17,15 +18,22 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.get('*', (_req, res, _next) => {
-  res.send(
-    index({
-      title: 'react-ssr',
-      app: ReactDOMServer.renderToString(
+app.get('*', (req, res, _next) => {
+  const context = {}
+  const html = index({
+    title: 'react-ssr',
+    app: ReactDOMServer.renderToString(
+      <StaticRouter location={req.url} context={context}>
         <App msg="Hallo Leute! Ich lebe grade!" initCount={20} time={Date.now()} />
-      )
-    })
-  )
+      </StaticRouter>
+    )
+  })
+
+  if (context.url) {
+    res.redirect(301, context.url)
+  } else {
+    res.send(html)
+  }
 })
 
 // eslint-disable-next-line no-console
@@ -37,11 +45,11 @@ function index({ title, app }) {
     <head>
       <meta charset="UTF-8"/>
       <title>${title}</title>
-      <link rel="stylesheet" href="app.css" />
+      <link rel="stylesheet" href="/app.css" />
     </head>
     <body>
       <main>${app}</main>
-      <script src="app.js"></script>
+      <script src="/app.js"></script>
     </body>
   </html>`
 }
