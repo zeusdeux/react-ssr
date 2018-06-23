@@ -7,23 +7,41 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server'
 import App from './routes/App'
 
-const { join } = path
+const { resolve } = path
+
 const app = express()
 const PORT = Number.parseInt(process.env.PORT, 10) || 3000
 
-app.set('views', join(__dirname, 'views'))
-app.set('view engine', 'pug')
-app.use(express.static(join(__dirname, 'public')))
+app.use(express.static(resolve('./public')))
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 app.get('*', (_req, res, _next) => {
-  res.render('index', {
-    title: 'react-ssr',
-    app: ReactDOMServer.renderToString(<App msg="Hallo Leute! Ich lebe grade!" initCount={20} />)
-  })
+  res.send(
+    index({
+      title: 'react-ssr',
+      app: ReactDOMServer.renderToString(
+        <App msg="Hallo Leute! Ich lebe grade!" initCount={20} time={Date.now()} />
+      )
+    })
+  )
 })
 
 // eslint-disable-next-line no-console
 app.listen(PORT, _ => console.log(`Listening on port ${PORT}`))
+
+function index({ title, app }) {
+  return `<!doctype html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8"/>
+      <title>${title}</title>
+      <link rel="stylesheet" href="app.css" />
+    </head>
+    <body>
+      <main>${app}</main>
+      <script src="app.js"></script>
+    </body>
+  </html>`
+}

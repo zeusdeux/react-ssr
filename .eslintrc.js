@@ -1,27 +1,10 @@
-// module.exports = {
-//   extends: ['prettier', 'prettier/react'],
-//   parserOptions: {
-//     ecmaFeatures: {
-//       experimentalObjectRestSpread: true,
-//       jsx: true
-//     },
-//     sourceType: 'module'
-//   },
-//   plugins: ['react'],
-//   rules: {
-//     'linebreak-style': ['error', 'unix'],
-// 'no-unused-vars': [
-//   'error',
-//   { vars: 'all', varsIgnorePattern: '^_', args: 'all', argsIgnorePattern: '^_' }
-// ]
-//   }
-// }
 module.exports = {
   env: {
     browser: true,
     node: true,
     commonjs: true
   },
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaVersion: 2018,
     ecmaFeatures: {

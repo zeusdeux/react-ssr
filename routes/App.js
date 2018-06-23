@@ -14,6 +14,7 @@ class App extends React.Component {
       <React.Fragment>
         <h1>{this.props.msg}</h1>
         <p>{this.state.count}</p>
+        <p>{this.props.time}</p>
         <button onClick={() => this.setState(state => ({ count: state.count + 1 }))}>
           Increment
         </button>
@@ -24,7 +25,8 @@ class App extends React.Component {
 
 App.propTypes = {
   msg: PropTypes.string.isRequired,
-  initCount: PropTypes.number.isRequired
+  initCount: PropTypes.number.isRequired,
+  time: PropTypes.number.isRequired
 }
 
 export default App

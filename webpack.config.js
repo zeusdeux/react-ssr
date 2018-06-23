@@ -1,6 +1,6 @@
 const { resolve } = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const { NODE_ENV: env } = process.env
+const { NODE_ENV: env = '' } = process.env
 
 module.exports = [
   {
@@ -11,7 +11,7 @@ module.exports = [
     },
     target: 'node',
     mode: env || 'development',
-    devtool: 'source-map',
+    devtool: env.match(/^prod(?:uction)?$/) ? 'source-map' : 'eval',
     module: {
       rules: [
         {
@@ -45,10 +45,7 @@ module.exports = [
           test: /\.js$/,
           exclude: /(node_modules)/,
           use: {
-            loader: 'babel-loader',
-            options: {
-              presets: ['@babel/react']
-            }
+            loader: 'babel-loader'
           }
         },
         {
